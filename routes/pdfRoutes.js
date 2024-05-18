@@ -1,19 +1,22 @@
 const express = require("express");
 const {
+  getPDFById,
   uploadPDFController,
-  uploadErrorController
+  uploadErrorController,
 } = require("../controllers/uploadPDFController");
 const router = express.Router();
 
 var multer = require("multer");
-var storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./uploads");
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  },
-});
+// var storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "./uploads");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, file.originalname);
+//   },
+// });
+
+const storage = multer.memoryStorage();;
 
 const uploadsPDF = multer({
   limits: {
@@ -32,5 +35,7 @@ router
   .route("/upload_pdf")
   .post(uploadsPDF.single("pdfFile"), uploadPDFController),
   uploadErrorController;
+
+router.route("/get-pdf/:id").get(getPDFById);
 
 module.exports = router;

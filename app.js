@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const cors = require("cors");
+const mongoose = require("mongoose");
 
 var path = require("path");
 var bodyParser = require("body-parser");
@@ -16,6 +17,25 @@ app.set("view engine", "ejs");
 
 //middleware
 app.use(express.json());
+
+const mongoURI = process.env.MONGODB_URL_SERVER;
+
+mongoose.set("strictQuery", false);
+//configure mongoose
+mongoose.connect(
+  mongoURI,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  },
+  (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("Connected to MongoDB");
+    }
+  }
+);
 
 const port = process.env.PORT || 3002;
 
