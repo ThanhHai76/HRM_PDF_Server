@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const pdfRouter = require("./routes/pdfRoutes");
+const imageRouter = require("./routes/imageRoutes");
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -44,6 +45,7 @@ app.listen(port, () => {
 });
 
 app.use('/api/pdf', pdfRouter); 
+app.use('/api/image', imageRouter); 
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
